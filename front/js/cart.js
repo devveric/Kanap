@@ -4,7 +4,8 @@ window.onload = () => {
 
 /**
  * Remplacer le titre de la balise "h2" par "textContent" si le localStorage est vide.
- * Sinon création d'un tableau vide et récupèrer les données envoyées du back en les vérifiants pour les pousser dans ce tableau avec la fontcion "displayData".
+ * Sinon création d'un tableau vide et récupèrer les données envoyées du back en les vérifiants
+ * pour les pousser dans ce tableau avec la fontcion "displayData".
  * @async
  */
 const productId = async () => {
@@ -160,6 +161,19 @@ const updateTot = (dataTot) => {
  * @param {Array} dataTot
  */
 const changeQuant = (event, dataTot) => {
+  console.log(event.target);
+  // "defaultValue" est une propriété de l'objet JavaScript qui représente l'ancienne valeur
+  const oldValue = event.target.defaultValue;
+  const newValue = event.target.value;
+  // Je test la nouvelle valeur qui vient d'être modifiée
+  if (newValue > 100 || newValue <= 0) {
+    event.target.value = oldValue;
+    // Une alerte est créée si la valeur de la quantité dépasse "100" ou est inférieur ou égale à "0"
+    alert("La quantité saisie n'est pas pris en compte");
+    return;
+  } else {
+    event.target.defaultValue = event.target.value;
+  }
   const quantValue = document.querySelector('.itemQuantity').value;
   const art = event.target.closest('article');
   const thisId = art.getAttribute('data-id');
@@ -169,11 +183,6 @@ const changeQuant = (event, dataTot) => {
   if (index != -1) {
     dataTot[index].quantProd = parseInt(event.target.value);
     readBasket[index].quantProd = parseInt(event.target.value);
-    // Une alerte est créé si la valeur de la quantité dépasse "100" ou est inférieur ou égale à "0"
-    if (quantValue > 100 || quantValue <= 0) {
-      alert("La quantité saisie n'est pas pris en compte");
-      return;
-    }
   }
   // je met à jour la valeur si la clé existe déjà et met à jour la totalité avec l'appel de la fontcion "updateTot"
   localStorage.setItem('storage', JSON.stringify(readBasket));
@@ -281,7 +290,8 @@ const getData = () => {
   const address = document.getElementById('address').value;
   const city = document.getElementById('city').value;
   const email = document.getElementById('email').value;
-  // Si l'appel est contraire aux fonctions incluant les regex une alerte l'informe et je retourne "false" pour cloturer la fonction "getData"
+  // Si l'appel est contraire aux fonctions incluant les regex une alerte l'informe
+  // et je retourne "false" pour cloturer la fonction "getData"
   if (
     !regexNameCity(firstName, 'firstName') ||
     !regexNameCity(lastName, 'lastName') ||

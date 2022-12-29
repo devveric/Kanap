@@ -21,7 +21,7 @@ const getData = async () => {
     const product = await response.json();
     productData(product);
   } catch (error) {
-    alert("Erreur");
+    alert(error);
   }
 };
 

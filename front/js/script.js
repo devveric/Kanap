@@ -31,12 +31,14 @@ const getData = async () => {
 
 /**
  * Cette fonction créée les élements HTML pour les injecter dans le DOM en utilisant une boucle.
- * @param {Object} products
+ * @param {Array} products
  */
 const displayData = (products) => {
   const items = document.getElementById('items');
   // Boucle "for of" pour la création des articles
+  // Element est un objet
   for (let element of products) {
+    console.log(typeof (element));
     const newLink = document.createElement('a');
     // Récupération de l'url du produit avec son id en paramètre (methode get = obtenir)
     newLink.setAttribute('href', `./product.html?id=${element._id}`);
