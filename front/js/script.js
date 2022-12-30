@@ -13,17 +13,17 @@ const getData = async () => {
   try {
     // Attente de la promesse en utilisant "await"
     const response = await fetch(urlData);
-    console.log(response)
     // Création d'une erreur s'il n'y a aucune reponse en utilisant un littéral de gabarit
     if (!response.ok) {
       throw new Error(
         `Erreur de requête, vérifier l'état du serveur ${response.status}`
       );
     }
-    // Récupération de la réquête et la transformer en objet pour l'utiliser dans l'appel de la fonction displayData
+    // Récupération de la réquête et la transformer en objet pour l'utiliser
+    // dans l'appel de la fonction displayData
     const products = await response.json();
     displayData(products);
-    // Une clause contenant l'erreur créée si une exception est levée par une instruction du bloc "try"
+    // Une close contenant l'erreur créée si une exception est levée par une instruction du bloc "try"
   } catch (error) {
     alert(error);
   }
@@ -36,7 +36,7 @@ const getData = async () => {
 const displayData = (products) => {
   const items = document.getElementById('items');
   // Boucle "for of" pour la création des articles
-  // Element est un objet
+  // "element" est un objet
   for (let element of products) {
     console.log(typeof (element));
     const newLink = document.createElement('a');

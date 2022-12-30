@@ -3,7 +3,7 @@ window.onload = () => {
 };
 
 /**
- * Remplacer le titre de la balise "h2" par "textContent" si le localStorage est vide.
+ * J'indique à l'utilisateur que le panier est vide
  * Sinon création d'un tableau vide et récupèrer les données envoyées du back en les vérifiants
  * pour les pousser dans ce tableau avec la fontcion "displayData".
  * @async
@@ -124,7 +124,8 @@ const deleteProd = (event, dataTot) => {
       alert("Le produit est supprimé");
     }
   });
-  // Je vérifie que le tableau soit vide pour supprimer l'objet dans le localStorage et j'insère dans le DOM (Document Object Model) "textContent"
+  // Je vérifie si le tableau est vide, si c'est le cas, je supprime la clé "storage" dans le localStorage
+  // et j'insère un texte pour le signaler à l'utilisateur
   if (readBasket.length === 0) {
     localStorage.clear();
     document.getElementById('cartAndFormContainer').firstElementChild.textContent = "Votre panier est vide";
@@ -161,8 +162,8 @@ const updateTot = (dataTot) => {
  * @param {Array} dataTot
  */
 const changeQuant = (event, dataTot) => {
-  console.log(event.target);
-  // "defaultValue" est une propriété de l'objet JavaScript qui représente l'ancienne valeur
+  // "defaultValue" est une propriété de l'objet JavaScript qui représente la valeur par défaut
+  // que je mets à jour à chaque fois si la valeur est conforme (entre 1 et 100)
   const oldValue = event.target.defaultValue;
   const newValue = event.target.value;
   // Je test la nouvelle valeur qui vient d'être modifiée
@@ -184,7 +185,8 @@ const changeQuant = (event, dataTot) => {
     dataTot[index].quantProd = parseInt(event.target.value);
     readBasket[index].quantProd = parseInt(event.target.value);
   }
-  // je met à jour la valeur si la clé existe déjà et met à jour la totalité avec l'appel de la fontcion "updateTot"
+  // Je mets à jour le panier dans le localStorage et je mets à jour
+  // les totaux en appelant la fonction "updateTot"
   localStorage.setItem('storage', JSON.stringify(readBasket));
   updateTot(dataTot);
 }
@@ -218,7 +220,8 @@ const addEvent = () => {
  * @param {Object} event <-- Évennement
  */
 const sendOrder = async (event) => {
-  // Je bloque l'évennement par défaut qui est de soumettre le formulaire tant que les vérifications ne sont pas exécutées, pour empêcher un mauvais envoi
+  // J'empêche le comportement par défaut du formulaire qui est de recharger
+  // une page après sa soumission
   event.preventDefault();
   const contact = getData();
   if (!contact) {
@@ -237,7 +240,8 @@ const sendOrder = async (event) => {
     products
   };
   const options = {
-    // Requête "POST" pour l'envoi et attend la réponse dans le type de média spécifié (langage d'échange json -> JavaScript Object Notation) en en-tête
+    // Requête "POST" pour l'envoi et attend la réponse dans le type de média spécifié
+    // (langage d'échange json -> JavaScript Object Notation) en en-tête
     method: 'POST',
     headers: {
       'Accept': 'application/json',
